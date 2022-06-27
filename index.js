@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import { loginValidation, registerValidation } from './validations/validations.js';
-import { register, login } from './controllers/userController.js';
+import { register, login, getMe } from './controllers/userController.js';
 import { handleValidationErrors } from './utils/handleValidationErrors.js';
 
 const app = express();
@@ -14,6 +14,7 @@ mongoose.connect('mongodb+srv://mark:kaccel2010@cluster0.yfahk.mongodb.net/blog?
 
 app.use(express.json());
 app.use(cors());
-    
+
 app.post('/auth/register', registerValidation, handleValidationErrors, register);
 app.post('/auth/login', loginValidation, handleValidationErrors, login);
+app.post('/auth/me', getMe);
