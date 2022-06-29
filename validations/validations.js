@@ -10,3 +10,8 @@ export const loginValidation = [
     body('email', 'Неверно введены пароль или почта').isEmail(),
     body('password', 'Неверно введены пароль или почта').isLength({ min: 5 }),
 ];
+
+export const createPostValidation = [
+    body('title', 'Не менее 3-ти символов').isLength({ min: 3 }),
+    body('text', 'Не менее 10-ти символов').isLength({ min: 10 }),
+];

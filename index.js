@@ -1,8 +1,9 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import { loginValidation, registerValidation } from './validations/validations.js';
+import { loginValidation, registerValidation, createPostValidation } from './validations/validations.js';
 import { register, login, getMe } from './controllers/userController.js';
+import { getAll, addPost } from './controllers/PostController.js';
 import { handleValidationErrors } from './utils/handleValidationErrors.js';
 
 const app = express();
@@ -18,3 +19,6 @@ app.use(cors());
 app.post('/auth/register', registerValidation, handleValidationErrors, register);
 app.post('/auth/login', loginValidation, handleValidationErrors, login);
 app.post('/auth/me', getMe);
+
+app.post('/posts/create', createPostValidation, addPost);
+app.get('/posts', getAll);

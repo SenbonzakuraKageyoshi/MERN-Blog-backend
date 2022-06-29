@@ -66,11 +66,8 @@ export const login = async (req, res) => {
 export const getMe = async (req, res) => {
         try {
             const { token } = req.body;
-            console.log(req.body)
-            console.log(token)
             const decoded = jwt.verify(token, 'secret123');
             console.log(decoded)
-
             const user = await UserModel.findOne({ _id: decoded.id });
             res.json(user)
         } catch (err) {
@@ -79,4 +76,4 @@ export const getMe = async (req, res) => {
                 message: 'Нет доступа',
             }); 
         }
-}
+};
