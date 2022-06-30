@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import { loginValidation, registerValidation, createPostValidation } from './validations/validations.js';
 import { register, login, getMe } from './controllers/userController.js';
-import { getAll, addPost } from './controllers/PostController.js';
+import { getAll, addPost, getPost, removePost, getMyPosts } from './controllers/PostController.js';
 import { handleValidationErrors } from './utils/handleValidationErrors.js';
 
 const app = express();
@@ -22,3 +22,6 @@ app.post('/auth/me', getMe);
 
 app.post('/posts/create', createPostValidation, addPost);
 app.get('/posts', getAll);
+app.post('/my-posts', getMyPosts);
+app.get('/posts/:id', getPost);
+app.post('/posts/delete', removePost);
