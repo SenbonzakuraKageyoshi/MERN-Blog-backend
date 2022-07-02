@@ -11,6 +11,9 @@ const PostSchema = new mongoose.Schema({
         required: true,
         unique: false,
     },
+    imageUrl: {
+        type: String,
+    },
     views: {
         type: Number,
         default: 0
@@ -19,7 +22,7 @@ const PostSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
-    }
+    },
 }, {timestamps: true});
 
 export default mongoose.model('Post', PostSchema);

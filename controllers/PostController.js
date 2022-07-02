@@ -8,7 +8,8 @@ export const addPost = async (req, res) => {
         const doc = new PostModel({
             title,
             text,
-            author
+            author,
+            imageUrl: req.body.imageUrl
         });
 
         const post = await doc.save();
