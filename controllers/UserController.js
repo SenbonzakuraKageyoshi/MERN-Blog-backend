@@ -4,7 +4,7 @@ import UserModel from '../models/user.js';
 
 export const register = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, imageUrl } = req.body;
 
         const salt = await bcrypt.genSalt(10);
         const passwordHash = await bcrypt.hash(password, salt);
@@ -13,6 +13,7 @@ export const register = async (req, res) => {
             name,
             email,
             passwordHash,
+            imageUrl
         });
 
         const user = await doc.save();
@@ -29,7 +30,7 @@ export const register = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status(400).json({message: 'Error!'})
+        res.status(400).json({message: 'Не удалось зарегистрироваться'})
     };
 };
 
@@ -40,13 +41,13 @@ export const login = async (req, res) => {
     const user = await UserModel.findOne({ email: email });
 
     if(!user){
-        return res.json({message: 'Пользователь не найден'})
+        return res.status(404).json({message: 'Пользователь не найден'})
     }
 
     const isValidPass = await bcrypt.compare(password, user.passwordHash);
 
     if(!isValidPass){
-        return res.json({message: 'Неверный логин или пароль!'})
+        return resres.status(404).json({message: 'Неверный логин или пароль!'})
     }
 
     const token = jwt.sign({
@@ -59,7 +60,7 @@ export const login = async (req, res) => {
     })
     } catch (error) {
         console.log(error);
-        res.status(400).json({message: 'Error!'})
+        res.status(500).json({message: 'Ошибка'})
     }
 };
 
@@ -72,7 +73,7 @@ export const getMe = async (req, res) => {
             res.json(user)
         } catch (err) {
             console.log(err)
-            return res.status(403).json({
+            return res.status(404).json({
                 message: 'Нет доступа',
             }); 
         }

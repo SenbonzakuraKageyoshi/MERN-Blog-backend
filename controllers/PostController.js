@@ -13,10 +13,11 @@ export const addPost = async (req, res) => {
         });
 
         const post = await doc.save();
+
         res.json(post);
     } catch (error) {
         console.log(error);
-        res.status(400).json({message: 'Error!'})
+        res.status(500).json({message: 'Не удалось добавить пост'})
     }
 };
 
@@ -28,7 +29,7 @@ export const getAll = async (req, res) => {
         
     } catch (error) {
         console.log(error);
-        res.status(404).json({message: 'Error!'})
+        res.status(500).json({message: 'Не удалось получить посты'})
     }
 };
 
@@ -39,20 +40,16 @@ export const getPost = async (req, res) => {
         PostModel.findOneAndUpdate({ _id: id }, {$inc: {views: 1}}, {returnDocument: 'after'}, (err, doc) => {
             if(err){
                 console.log(err);
-                return res.status(500).json({
-                    message: 'Не удалось получить статью'
-                });
+                return res.status(500).json({message: 'Не удалось получить статью'});
             };
             if(!doc){
-                return res.status(404).json({   
-                    message: 'Статья не найдена'
-                })
+                return res.status(404).json({message: 'Статья не найдена'})
             };
             res.json(doc);
         }).populate('author');
     } catch (error) {
         console.log(error);
-        res.status(404).json({message: 'Error!'})
+        res.status(500).json({message: 'Ошибка'})
     }
 };
 
@@ -64,7 +61,7 @@ export const removePost = async (req, res) => {
         res.json({message: 'success'})
     } catch (error) {
         console.log(error);
-        res.status(404).json({message: 'Error!'})
+        res.status(500).json({message: 'Ошибка'})
     }
 };
 
@@ -75,6 +72,6 @@ export const getMyPosts = async (req, res) => {
         res.json(posts.filter((post) => post.author._id == id)); 
     } catch (error) {
         console.log(error);
-        res.status(404).json({message: 'Error!'})
+        res.status(500).json({message: 'Ошибка'})
     }
 }

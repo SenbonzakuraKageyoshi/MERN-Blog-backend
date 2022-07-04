@@ -13,6 +13,9 @@ const UserModel = new mongoose.Schema({
     passwordHash: {
         type: String,
         required: true,
+    },
+    imageUrl: {
+        type: String,
     }
 }, {timestamps: true});
 
